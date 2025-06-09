@@ -1,0 +1,71 @@
+[project]
+name = "vesselharborcli"
+version = "0.1.0"
+description = "CLI utility for managing and deploying resources on VesselHarbor"
+authors = [
+    {name = "stephane apiou",email = "stephane@apiou.org"}
+]
+documentation = "https://vesselharborcli.readthedocs.io"
+homepage = "https://github.com/steapi/vesselharborcli/"
+repository = "https://github.com/steapi/vesselharborcli/"
+readme = "README.md"
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules"]
+license = "MIT"
+requires-python = ">=3.11"
+
+[tool.poetry.dependencies]
+requests = "~2.31.0"
+pydantic = "~2.11.0"
+rich = "~14.0.0"
+python-dotenv = "~1.1.0"
+tomli-w = "~1.2.0"
+
+[custom.params]
+package="vesselharborcli"
+srcdir="vesselharborcli"
+man-section="1"
+long-description="""VesselHarbor is a free, self-hostable Platform-as-a-Service (PaaS) designed to turn any Raspberry Pi or VPS into a fully featured personal cloud. It simplifies the deployment and management of virtual machines, Docker Swarm stacks, websites, DNS records, and email services—all from a unified interface.
+With one command to install and a CLI or web UI to operate, VesselHarbor makes it easy to self-host popular applications like Nextcloud, WordPress, Git platforms, and more, without needing deep DevOps expertise.
+Whether you want to manage your own infrastructure, reclaim digital sovereignty, or just explore self-hosting, VesselHarbor provides the tools to do it reliably, securely, and efficiently."""
+
+[tool.poetry.scripts]
+myeasyserver = "vesselharborcli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2"
+pytest-cov = "^4.0"
+black = "^23.0"
+isort = "^5.0"
+mypy = "^1.0"
+
+[project.scripts]
+vesselharbor = "vesselharborcli.cli:main"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+python_classes = "Test*"
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true

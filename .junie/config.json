@@ -1,0 +1,74 @@
+{
+  "development": {
+    "api": {
+      "base_url": "https://api-dev.vesselharbor.com/v1",
+      "timeout": 30,
+      "retry": {
+        "max_attempts": 3,
+        "backoff_factor": 1.5
+      }
+    },
+    "auth": {
+      "token_refresh_threshold": 300,
+      "token_storage": "secure_keyring"
+    },
+    "logging": {
+      "level": "DEBUG",
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      "file": null
+    },
+    "cli": {
+      "output_format": "table",
+      "color_enabled": true,
+      "verbose": false
+    }
+  },
+  "testing": {
+    "api": {
+      "base_url": "https://api-test.vesselharbor.com/v1",
+      "timeout": 10,
+      "retry": {
+        "max_attempts": 2,
+        "backoff_factor": 1.0
+      }
+    },
+    "auth": {
+      "token_refresh_threshold": 300,
+      "token_storage": "file"
+    },
+    "logging": {
+      "level": "INFO",
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      "file": "vesselharbor-test.log"
+    },
+    "cli": {
+      "output_format": "json",
+      "color_enabled": false,
+      "verbose": true
+    }
+  },
+  "production": {
+    "api": {
+      "base_url": "https://api.vesselharbor.com/v1",
+      "timeout": 60,
+      "retry": {
+        "max_attempts": 5,
+        "backoff_factor": 2.0
+      }
+    },
+    "auth": {
+      "token_refresh_threshold": 600,
+      "token_storage": "secure_keyring"
+    },
+    "logging": {
+      "level": "WARNING",
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      "file": "vesselharbor.log"
+    },
+    "cli": {
+      "output_format": "table",
+      "color_enabled": true,
+      "verbose": false
+    }
+  }
+}

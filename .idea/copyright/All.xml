@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright (c) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year.  VesselHarbor&#10;____   ____                          .__    ___ ___             ___.&#10;\   \ /   /____   ______ ______ ____ |  |  /   |   \_____ ______\_ |__   ___________ &#10; \   Y   // __ \ /  ___//  ___// __ \|  | /    ~    \__  \\_  __ \ __ \ /  _ \_  __ \&#10;  \     /\  ___/ \___ \ \___ \\  ___/|  |_\    Y    // __ \|  | \/ \_\ (  &lt;_&gt; )  | \/&#10;   \___/  \___  &gt;____  &gt;____  &gt;\___  &gt;____/\___|_  /(____  /__|  |___  /\____/|__|   &#10;              \/     \/     \/     \/            \/      \/          \/&#10;MIT License&#10;&#10;" />
+    <option name="myName" value="All" />
+  </copyright>
+</component>
