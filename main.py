@@ -4,12 +4,22 @@
 import sys
 
 from vesselharborcli.__main__ import main as cli_main
+import threading
 
+_orig_init = threading.Thread.__init__
+
+def debug_thread_init(self, *args, **kwargs):
+    import traceback
+    traceback.print_stack()
+    return _orig_init(self, *args, **kwargs)
+
+threading.Thread.__init__ = debug_thread_init
 
 def main():
     """Run the CLI application."""
-    cli_main()
+    return cli_main()
 
 
 if __name__ == "__main__":
-    main()
+    ret = main()
+    exit(ret)

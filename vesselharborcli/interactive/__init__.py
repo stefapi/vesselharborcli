@@ -9,4 +9,4 @@
 #
 #
 
-"""Project management module for VesselHarbor CLI."""
+"""Interactive mode for VesselHarbor CLI."""

@@ -49,7 +49,7 @@ def login(args):
     """Login with username and password."""
     try:
         token_manager = TokenManager(server=args.server, port=args.port)
-        token_response = token_manager.login_with_password(args.username, args.password)
+        token_response = token_manager.login_with_password
         console.print(f"[green]Successfully logged in as {args.username}[/green]")
     except AuthenticationError as e:
         console.print(f"[red]Authentication failed: {str(e)}[/red]")

@@ -666,7 +666,7 @@
     "/users/{user_id}/tags": {
       "get": {
         "tags": ["users"],
-        "summary": "Lister les tags d’un utilisateur",
+        "summary": "Lister les tags d'un utilisateur",
         "operationId": "list_user_tags_users__user_id__tags_get",
         "security": [{ "OAuth2PasswordBearerOrKey": [] }],
         "parameters": [
@@ -746,7 +746,7 @@
       },
       "delete": {
         "tags": ["users"],
-        "summary": "Dissocier un tag d’un utilisateur",
+        "summary": "Dissocier un tag d'un utilisateur",
         "operationId": "remove_tag_from_user_users__user_id__tags__tag_id__delete",
         "security": [{ "OAuth2PasswordBearerOrKey": [] }],
         "parameters": [
@@ -1278,6 +1278,44 @@
                   "type": "object",
                   "additionalProperties": true,
                   "title": "Response List Organization Groups Organizations  Org Id  Groups Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{org_id}/environments": {
+      "get": {
+        "tags": ["organizations"],
+        "summary": "List Organization Environments",
+        "operationId": "list_organization_environments_organizations__org_id__environments_get",
+        "security": [{ "OAuth2PasswordBearerOrKey": [] }],
+        "parameters": [
+          {
+            "name": "org_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Org Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Organization Environments Organizations  Org Id  Environments Get"
                 }
               }
             }
@@ -3600,6 +3638,51 @@
               }
             }
           }
+        }
+      }
+    },
+    "/coffee/": {
+      "get": {
+        "tags": ["coffee"],
+        "summary": "I'm a teapot",
+        "description": "Returns a 418 I'm a teapot status code, as per RFC 2324.",
+        "operationId": "im_a_teapot_coffee__get",
+        "responses": {
+          "418": {
+            "description": "I'm a teapot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Im A Teapot Coffee  Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Health Check",
+        "description": "Returns a 200 OK status code if the service is running. Used for Kubernetes/Docker health checks.",
+        "operationId": "health_check_health__get",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Check Health  Get"
+                }
+              }
+            }
+          },
+          "503": { "description": "Service is unhealthy" }
         }
       }
     }

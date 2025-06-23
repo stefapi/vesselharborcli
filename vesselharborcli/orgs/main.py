@@ -22,7 +22,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from ..auth import AuthenticationError
+from ..core.auth import AuthenticationError
 from ..core.config import get_config
 from ..service import svc_class
 from ..version import __software__
@@ -70,7 +70,7 @@ class orgs_services(svc_class):
 
         # create
         create_parser = subparsers.add_parser('create', help='Create new organization')
-        create_parser.add_argument('--name', required=True, help='Organization name')
+        create_parser.add_argument('--name', help='Organization name', default='')
         create_parser.add_argument('--description', help='Organization description')
         create_parser.set_defaults(func='create_organization')
 
@@ -143,11 +143,15 @@ class orgs_services(svc_class):
 
             return 0
         except APIError as e:
-            print(f"API Error ({e.status_code or 'No status'}): {str(e)}", file=sys.stderr)
+            if e.status_code in [403, 404]:
+                print(f"{str(e)}")
+            else:
+                print(f"API Error ({e.status_code or 'No status'}): {str(e)}", file=sys.stderr)
             return 1
         except AuthenticationError as e:
             print(f"Authentication Error: {str(e)}", file=sys.stderr)
             return 2
-        except Exception as e:
-            print(f"Unexpected error: {str(e)}", file=sys.stderr)
-            return 3
+        # TODO a réactiver !
+        #except Exception as e:
+        #    print(f"Unexpected error: {str(e)}", file=sys.stderr)
+        #    return 3

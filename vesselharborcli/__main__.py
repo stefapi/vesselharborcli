@@ -8,8 +8,9 @@ from .core.arg_params import arg_parser
 from .core.config import create_config
 from .version import __software__, __description__, __version__
 from .orgs.main import orgs_services
-from .projects.main import projects_services
+from .environments.main import environments_services
 from .auth_commands import auth_services
+from .interactive_service import interactive_services
 
 
 __SOFTWARE__ = __software__.upper()
@@ -81,8 +82,8 @@ def main():
     """
 
     Params = sys.argv
-    # Création du store avec les services organisations, projets et authentification
-    apps_store = svc_store([orgs_services(), projects_services(), auth_services()])
+    # Création du store avec les services organisations, environnements, authentification et interactif
+    apps_store = svc_store([orgs_services(), environments_services(), auth_services(), interactive_services()])
     app_name = basename(Params[0])
 
     # Détection de l'application basée sur le nom du programme

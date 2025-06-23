@@ -13,7 +13,7 @@
 
 import sys
 import requests
-from .auth import TokenManager, AuthenticationError
+from .core.auth import TokenManager, AuthenticationError
 from .service import svc_class
 from .version import __software__
 from .core.config import get_config
@@ -54,7 +54,7 @@ class auth_services(svc_class):
     def cmd_name(name):
         return name == 'auth'
 
-    def run(self):
+    def run(self) -> int:
 
         config = get_config()
         args = config.args
@@ -72,14 +72,8 @@ class auth_services(svc_class):
 
                 try:
                     # Attempt to login with password
-                    token_response = token_manager.login_with_password()
+                    token_response = token_manager.login_with_password
                     print("Basic authentication successful!")
-                    print(f"Token type: {token_response.token_type}")
-                    print(f"Access token: {token_response.access_token[:10]}... (truncated)")
-                    if token_response.expires_in:
-                        print(f"Expires in: {token_response.expires_in} seconds")
-                    if token_response.refresh_token:
-                        print(f"Refresh token: {token_response.refresh_token[:10]}... (truncated)")
                     return 0
                 except AuthenticationError as e:
                     print(f"Basic authentication failed: {str(e)}", file=sys.stderr)
@@ -90,7 +84,7 @@ class auth_services(svc_class):
                 token_manager = TokenManager()
 
                 # Check if API key is configured
-                if not config.config.get('application', 'api_key'):
+                if not config.config['application.api_key']:
                     print("Error: API key not configured.", file=sys.stderr)
                     print("Please set it in your configuration file or environment variables.", file=sys.stderr)
                     return 1

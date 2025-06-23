@@ -129,6 +129,50 @@ Use the `-y` or `--yes` flag to skip confirmation:
 vesselharbor org delete <org_id> -y
 ```
 
+### Environments
+
+List environments:
+
+```bash
+vesselharbor environment list
+```
+
+Get environment details:
+
+```bash
+vesselharbor environment get <environment_id>
+```
+
+Create a new environment:
+
+```bash
+vesselharbor environment create --name "My Environment" --description "My environment description"
+```
+
+Update an environment:
+
+```bash
+vesselharbor environment update <environment_id> --name "New Name" --description "New description"
+```
+
+Delete an environment:
+
+```bash
+vesselharbor environment delete <environment_id>
+```
+
+### Interactive Mode
+
+Use the interactive mode to manage both organizations and environments:
+
+```bash
+vesselharbor interactive
+```
+
+This will launch an interactive interface where you can select which resource type (organizations or environments) you want to manage. From there, you can perform operations like viewing, creating, editing, and deleting resources in a visual environment.
+
+The interactive mode provides a user-friendly interface similar to cfdisk, making it easier to manage your resources.
+
 ## Environment Variables
 
 The following environment variables can be used to configure the CLI:
