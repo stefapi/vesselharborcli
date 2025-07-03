@@ -63,6 +63,7 @@ class EnvironmentsInteractive(InteractiveBase):
             'e': 'Edit',
             'd': 'Delete',
             'r': 'Refresh',
+            'b': 'Back to organizations',
         })
         return commands
 
@@ -120,6 +121,9 @@ class EnvironmentsInteractive(InteractiveBase):
                 self.delete_environment(self.items[self.selected_index])
         elif key == ord('r'):
             self.load_data()
+        elif key == ord('b'):
+            # Return to organizations menu by ending this interface
+            self.running = False
 
     def show_help(self):
         """Show help information."""
@@ -132,6 +136,7 @@ Navigation:
   Up/Down Arrow: Move selection
   Enter: Select environment
   q: Quit
+  b: Back to organizations
 
 Commands:
   c: Create new environment in the current organization

@@ -1,117 +1,93 @@
-# VesselHarbor CLI Project Guidelines
-
-This document provides guidelines and information for developing and maintaining the VesselHarbor CLI project.
+# Project Guidelines for VesselHarbor CLI
 
 ## Project Overview
+VesselHarbor CLI is a command-line interface tool for interacting with the VesselHarbor platform, which is a self-hosted solution that simplifies private cloud deployment on Raspberry Pi or VPS with VMs, containers, websites, email, DNS, and one-click apps. The CLI provides functionality for:
 
-VesselHarbor CLI is a command-line tool for interacting with the VesselHarbor API. It provides functionality for authentication, organization management, and configuration.
+- Authentication (login, logout, token management)
+- Organization management (list, create, update, delete)
+- Environment management (list, create, update, delete)
+- Configuration management
+- Interactive mode for user-friendly resource management
 
 ## Project Structure
-
-The project follows a modular structure:
+The project follows a modular architecture:
 
 - `vesselharborcli/` - Main package directory
   - `__main__.py` - Entry point for the CLI application
-  - `auth.py` - Authentication functionality
   - `auth_commands.py` - Authentication command implementations
   - `service.py` - Service management
   - `core/` - Core utilities and configuration
+    - `auth.py` - Authentication service
+    - `config.py` - Configuration management
+    - `settings.py` - Settings management
+    - `type_conv.py` - Type conversion utilities
   - `orgs/` - Organization-related commands and functionality
-  - `projects/` - Project-related commands and functionality
+  - `environments/` - Environment-related commands and functionality
+  - `interactive/` - Interactive mode functionality
 - `tests/` - Test directory
   - `test_cli.py` - Tests for CLI functionality
 - `main.py` - Wrapper script for the CLI
 
-## Development Environment
+## Testing Guidelines
+When making changes to the codebase, Junie should:
 
-The project uses Poetry for dependency management. To set up the development environment:
-
-1. Install Poetry if not already installed: https://python-poetry.org/docs/#installation
-2. Clone the repository
-3. Run `poetry install` to install dependencies
-
-## Testing
-
-### Running Tests
-
-Tests should be run to verify that changes don't break existing functionality. Use pytest to run the tests:
-
-```bash
-poetry run pytest
-```
-
-For more detailed output, including test coverage:
-
-```bash
-poetry run pytest --cov=vesselharborcli
-```
-
-### Test Structure
-
-Tests are written using the unittest framework and are located in the `tests/` directory. The tests use mocking to isolate components and avoid making actual API calls.
-
-Note: There appears to be a discrepancy between the tests (which reference a Typer-based CLI) and the actual implementation (which uses argparse). When making changes, ensure that tests are updated to match the implementation.
-
-## Building and Installation
-
-### Building the Package
-
-To build the package:
-
-```bash
-poetry build
-```
-
-This will create distribution packages in the `dist/` directory.
-
-### Installing the Package
-
-For development, install the package in editable mode:
-
-```bash
-pip install -e .
-```
-
-For regular installation:
-
-```bash
-pip install .
-```
-
-## Code Style Guidelines
-
-The project follows these code style guidelines:
-
-1. **Black**: Code should be formatted using Black with a line length of 88 characters.
+1. Run the existing tests to ensure no regressions:
    ```bash
-   poetry run black vesselharborcli tests
+   poetry run pytest
    ```
 
-2. **isort**: Imports should be sorted using isort with the Black profile.
+2. For test coverage analysis:
    ```bash
+   poetry run pytest --cov=vesselharborcli
+   ```
+
+3. When implementing new features, add appropriate tests to maintain test coverage.
+
+## Code Style Guidelines
+The project follows these code style guidelines:
+
+1. Format code with Black and isort:
+   ```bash
+   poetry run black vesselharborcli tests
    poetry run isort vesselharborcli tests
    ```
 
-3. **mypy**: Type hints should be used and checked with mypy.
+2. Check types with mypy:
    ```bash
    poetry run mypy vesselharborcli
    ```
 
-4. **Docstrings**: Functions and classes should have docstrings following the Google style.
+3. Follow PEP 8 guidelines for Python code style.
+4. Use docstrings for all functions, classes, and modules.
+5. Keep functions small and focused on a single responsibility.
 
-## Submitting Changes
+## Building the Project
+To build the project:
 
-Before submitting changes:
+1. Ensure all dependencies are installed:
+   ```bash
+   poetry install
+   ```
 
-1. Ensure all tests pass
-2. Format code with Black and isort
-3. Check types with mypy
-4. Update documentation if necessary
+2. Build the package:
+   ```bash
+   poetry build
+   ```
 
-## Troubleshooting
+This creates distribution packages in the `dist/` directory.
 
-If you encounter issues with the CLI:
+## Development Workflow
+When working on this project, Junie should:
 
-1. Check authentication status with `vesselharbor auth status`
-2. Verify configuration settings with `vesselharbor config get-url`
-3. Enable verbose output for more detailed information
+1. Understand the issue or feature request thoroughly.
+2. Identify the relevant modules and files that need to be modified.
+3. Make minimal changes to address the issue while maintaining compatibility.
+4. Run tests to ensure the changes don't break existing functionality.
+5. Format the code according to the project's style guidelines.
+6. Provide a clear explanation of the changes made and how they address the issue.
+
+## Important Considerations
+1. Authentication and security are critical aspects of this application. Any changes to authentication flows should be carefully reviewed.
+2. The CLI is designed to be user-friendly, so error messages should be clear and helpful.
+3. The application uses a hierarchical configuration approach (defaults, config file, environment variables, command-line arguments).
+4. The project uses Poetry for dependency management.

@@ -40,6 +40,7 @@ class TokenManager:
     def __init__(self):
         self.access_token = None
         self.refresh_token = None
+        self._user_info = None
 
     def login_with_password(self) -> bool:
         """Login with configured username and password."""
@@ -202,3 +203,47 @@ class TokenManager:
             return True
         else:
             return self.ensure_authentication()
+
+    def get_user_info(self, force_refresh=False):
+        """Get information about the current user from the /me endpoint.
+
+        Args:
+            force_refresh: If True, force a refresh of the user info.
+
+        Returns:
+            Dict containing user information or None if not authenticated.
+        """
+        if self._user_info is not None and not force_refresh:
+            return self._user_info
+
+        if not self.ensure_authentication():
+            return None
+
+        try:
+            import requests
+            url = f"{get_base_url()}/me"
+            headers = self.get_auth_header()
+
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+
+            data = response.json()
+            if data.get('status') == 'success' and 'data' in data:
+                self._user_info = data['data']
+                return self._user_info
+            return None
+        except Exception:
+            # Reset user info on error
+            self._user_info = None
+            return None
+
+    def is_superadmin(self):
+        """Check if the current user is a superadmin.
+
+        Returns:
+            bool: True if the user is a superadmin, False otherwise.
+        """
+        user_info = self.get_user_info()
+        if user_info is None:
+            return False
+        return user_info.get('is_superadmin', False)

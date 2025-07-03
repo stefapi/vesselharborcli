@@ -69,7 +69,23 @@ class APIOrganization:
         return Organization(**organization)
 
     def create_organization(self, org_data: OrganizationCreate) -> Organization:
-        """Create a new organization."""
+        """Create a new organization.
+
+        Only superadmins can create organizations.
+
+        Args:
+            org_data: Organization data to create.
+
+        Returns:
+            The created organization.
+
+        Raises:
+            APIError: If the user is not a superadmin or if the API request fails.
+        """
+        # Check if the user is a superadmin
+        if not self.token_manager.is_superadmin():
+            raise APIError("Only superadmins can create organizations", 403)
+
         response = make_request(self.token_manager,
             "POST",
             "/organizations",

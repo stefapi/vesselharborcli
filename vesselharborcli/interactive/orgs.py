@@ -47,12 +47,17 @@ class OrgsInteractive(InteractiveBase):
         """Get the available commands."""
         commands = super().get_commands()
         commands.update({
-            'c': 'Create',
             'e': 'Edit',
             'd': 'Delete',
             'v': 'View Environments',
             'r': 'Refresh',
+            'b': 'Back to main menu',
         })
+
+        # Only show create option for superadmins
+        if self.api.token_manager.is_superadmin():
+            commands['c'] = 'Create'
+
         return commands
 
     def format_list_item(self, item):
@@ -88,7 +93,11 @@ class OrgsInteractive(InteractiveBase):
     def handle_command(self, key):
         """Handle a command key."""
         if key == ord('c'):
-            self.create_organization()
+            # Only allow superadmins to create organizations
+            if self.api.token_manager.is_superadmin():
+                self.create_organization()
+            else:
+                self.show_message("Only superadmins can create organizations", "error")
         elif key == ord('e'):
             if self.items and 0 <= self.selected_index < len(self.items):
                 self.edit_organization(self.items[self.selected_index])
@@ -100,6 +109,9 @@ class OrgsInteractive(InteractiveBase):
                 self.view_environments(self.items[self.selected_index])
         elif key == ord('r'):
             self.load_data()
+        elif key == ord('b'):
+            # Return to main menu by ending this interface
+            self.running = False
 
     def show_help(self):
         """Show help information."""
@@ -110,10 +122,15 @@ Navigation:
   Up/Down Arrow: Move selection
   Enter: Select organization
   q: Quit
+  b: Back to main menu
 
 Commands:
-  c: Create new organization
-  e: Edit selected organization
+"""
+        # Only show create option for superadmins
+        if self.api.token_manager.is_superadmin():
+            help_text += "  c: Create new organization\n"
+
+        help_text += """  e: Edit selected organization
   d: Delete selected organization
   v: View environments for selected organization
   r: Refresh organization list
