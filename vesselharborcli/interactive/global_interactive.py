@@ -16,8 +16,10 @@ from typing import List, Dict, Any, Optional
 
 from ..orgs.organizations import get_APIorg
 from ..environments.environments import get_APIenvironment
+from ..users.users import get_APIuser
 from .orgs import OrgsInteractive, run_interactive_orgs
 from .environments import EnvironmentsInteractive, run_interactive_environments
+from .users import UsersInteractive, run_interactive_users
 from .base import InteractiveBase
 
 
@@ -31,10 +33,11 @@ class GlobalInteractive(InteractiveBase):
             config: The application configuration.
         """
         super().__init__(config)
-        self.mode = "selection"  # "selection", "orgs", "environments"
+        self.mode = "selection"  # "selection", "orgs", "environments", "users"
         self.items = [
             {"id": "orgs", "name": "Organizations", "description": "Manage organizations"},
-            {"id": "environments", "name": "Environments", "description": "Manage environments"}
+            {"id": "environments", "name": "Environments", "description": "Manage environments"},
+            {"id": "users", "name": "Users", "description": "Manage users"}
         ]
 
     def load_data(self):
@@ -79,6 +82,10 @@ class GlobalInteractive(InteractiveBase):
             self.cleanup()  # Clean up curses before switching
             run_interactive_environments(self.config)
             self.running = False  # Exit after returning from the sub-interface
+        elif selected_item["id"] == "users":
+            self.cleanup()  # Clean up curses before switching
+            run_interactive_users(self.config)
+            self.running = False  # Exit after returning from the sub-interface
 
     def handle_command(self, key):
         """Handle a command key."""
@@ -95,6 +102,7 @@ From here, you can select which type of resource to manage:
 
 - Organizations: Manage your VesselHarbor organizations
 - Environments: Manage your VesselHarbor environments
+- Users: Manage your VesselHarbor users
 
 Navigation:
   Up/Down Arrow: Move selection

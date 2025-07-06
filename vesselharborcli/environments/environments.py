@@ -93,7 +93,7 @@ class APIEnvironment:
         """
         response = make_request(self.token_manager,"GET", f"/organizations/{organization_id}/environments/{environment_id}")
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'environnement ...)
+        # TODO Handle error cases (permissions, no environment ...)
         if isinstance(data, dict) and "data" in data:
             env_data = data.get("data", {})
         else:
@@ -122,7 +122,7 @@ class APIEnvironment:
             json=data_dict
         )
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'environnement ...)
+        # TODO Handle error cases (permissions, no environment ...)
         if isinstance(data, dict) and "data" in data:
             env_data = data.get("data", {})
         else:
@@ -152,7 +152,7 @@ class APIEnvironment:
             json=data_dict
         )
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'environnement ...)
+        # TODO Handle error cases (permissions, no environment ...)
         if isinstance(data, dict) and "data" in data:
             env_data = data.get("data", {})
         else:

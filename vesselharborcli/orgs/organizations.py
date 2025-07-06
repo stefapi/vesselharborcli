@@ -63,7 +63,7 @@ class APIOrganization:
         """Get organization details."""
         response = make_request(self.token_manager,"GET", f"/organizations/{org_id}")
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'organisation ...)
+        # TODO Handle error cases (permissions, no organization ...)
         if isinstance(data, dict) and "data" in data:
             organization = data.get("data", [])
         return Organization(**organization)
@@ -92,7 +92,7 @@ class APIOrganization:
             json=org_data.model_dump(exclude_none=True)
         )
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'organisation ...)
+        # TODO Handle error cases (permissions, no organization ...)
         if isinstance(data, dict) and "data" in data:
             organization = data.get("data", [])
         return Organization(**organization)
@@ -105,7 +105,7 @@ class APIOrganization:
             json=org_data.model_dump(exclude_none=True)
         )
         data = response.json()
-        # TODO Traiter les cas d'erreur (permissions, pas d'organisation ...)
+        # TODO Handle error cases (permissions, no organization ...)
         if isinstance(data, dict) and "data" in data:
             organization = data.get("data", [])
         return Organization(**organization)

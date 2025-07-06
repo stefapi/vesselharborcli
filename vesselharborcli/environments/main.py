@@ -110,7 +110,7 @@ class environments_services(svc_class):
         config = get_config()
         args = config.args
 
-        # Création du client API avec configuration complète
+        # Create API client with complete configuration
         api = get_APIenvironment(config)
 
         try:

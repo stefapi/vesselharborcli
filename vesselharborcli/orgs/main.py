@@ -98,7 +98,7 @@ class orgs_services(svc_class):
         config = get_config()
         args = config.args
 
-        # Création du client API avec configuration complète
+        # Create API client with complete configuration
         api = get_APIorg(config)
 
         try:
@@ -151,7 +151,7 @@ class orgs_services(svc_class):
         except AuthenticationError as e:
             print(f"Authentication Error: {str(e)}", file=sys.stderr)
             return 2
-        # TODO a réactiver !
+        # TODO to reactivate!
         #except Exception as e:
         #    print(f"Unexpected error: {str(e)}", file=sys.stderr)
         #    return 3

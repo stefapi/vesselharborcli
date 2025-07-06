@@ -9,6 +9,7 @@ from .core.config import create_config
 from .version import __software__, __description__, __version__
 from .orgs.main import orgs_services
 from .environments.main import environments_services
+from .users.main import users_services
 from .auth_commands import auth_services
 from .interactive_service import interactive_services
 
@@ -82,24 +83,24 @@ def main():
     """
 
     Params = sys.argv
-    # Création du store avec les services organisations, environnements, authentification et interactif
-    apps_store = svc_store([orgs_services(), environments_services(), auth_services(), interactive_services()])
+    # Create the store with organizations, environments, users, authentication and interactive services
+    apps_store = svc_store([orgs_services(), environments_services(), users_services(), auth_services(), interactive_services()])
     app_name = basename(Params[0])
 
-    # Détection de l'application basée sur le nom du programme
+    # Detect the application based on the program name
     selected_app = apps_store.selected_app(app_name)
     params_link_app = apps_store.update_params_link(params_link)
     default_config_app = apps_store.update_default_config(default_config)
 
-    # Préparation de la liste des services pour le parser
+    # Prepare the services list for the parser
     if selected_app is None:
-        services_list = apps_store.svcs  # Tous les services
+        services_list = apps_store.svcs  # All services
         generic = True
     else:
-        services_list = [selected_app]   # Service spécifique détecté
+        services_list = [selected_app]   # Specific detected service
         generic = False
 
-    # Création du parser principal
+    # Create the main parser
     parser = arg_parser(
         __software__,
         __version__,
@@ -111,11 +112,11 @@ def main():
             'help': 'get help with --help',
             'dest': 'mode'
         },
-        services_list,  # Passage de la liste des services
+        services_list,  # Pass the services list
         generic
     )
 
-    # Analyse des arguments
+    # Parse the arguments
     args = parser.parse_args(Params)
 
     config = create_config(args.conf, args, params_link_app, default_config_app, args.debug_do_not_use)
@@ -124,7 +125,7 @@ def main():
         parser.print_version()
         exit(0)
 
-    # Dispatch vers le service approprié
+    # Dispatch to the appropriate service
     run_app = None
     for service in apps_store.svcs:
         if service.cmd_name(args.mode):
